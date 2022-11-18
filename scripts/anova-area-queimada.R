@@ -1,6 +1,6 @@
 # Analise de variancia 2 way entre parques e entre periodos (el nino, la nina, neutro) com variavel dependente percentagem ou proporcao queimada
 # por ano. Transformacao arcoseno para normalizar dados proporcao
-#
+# packages used: lawstat tidyverse car readxl
 usethis::use_git_config(user.name = "Roberto Cavalcanti", user.email = "rbcer10@gmail.com")
 credentials::set_github_pat("YOURPATCODEHERE")
 #
@@ -40,6 +40,20 @@ parquenj2 <- parquenj %>%
 anova2wtudo<-aov(arcsenquei ~ parque+tipo+parque:tipo, parquenj2)
 summary(anova2wtudo)
 interaction.plot(parquenj2$parque, parquenj2$tipo, parquenj2$arcsenquei)
+#testando homoscedascidade e normalidade
+shapiro.test(resid(anova2wtudo))
+levene.test(parquenj2$arcsenquei, parquenj2$parque)
+levene.test(parquenj2$arcsenquei, parquenj2$tipo)
+#repetindo com logit transformation
+parquenj3 <- parquenj %>% 
+  mutate(logitquei = logit(propqueim))
+anova3wtudo<-aov(logitquei ~ parque+tipo+parque:tipo, parquenj3)
+summary(anova3wtudo)
+interaction.plot(parquenj3$parque, parquenj3$tipo, parquenj3$percentqueim)
+#testando homoscedascidade e normalidade agora sim ambos aceitos
+shapiro.test(resid(anova3wtudo))
+leveneTest(parquenj3$logitquei, parquenj3$parque)
+leveneTest(parquenj3$logitquei, parquenj3$tipo)
 #agora ver se ha efeito significativo dentro vs fora
 anova2wlocal<-aov(arcsenquei ~ parque+local+parque:local, parquenj2)
 summary(anova2wlocal)
