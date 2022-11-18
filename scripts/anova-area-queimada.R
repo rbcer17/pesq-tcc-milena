@@ -23,3 +23,19 @@ boxplot(percentagem~local, data=parques_queima)
 parqueim <- nome_int_no_missing_anova_area_queimada_parque_enso
 parqueim %>% 
   mutate(arcsenquei = asin(sqrt(propqueim)))
+# run two way anova parques e el nino  
+#remove pe jalapao from dataframe and create dataframe parquenj
+parquenj <- parqueim %>%  filter(parque!='jalapao')
+#remove externals from parquenj dataframe and create dataframe parquint
+parquint <- parquenj %>%  filter(local!='ext')
+# agora two way anova 3 parques arcsin transform internal
+parquint2 <- parquint %>% 
+  mutate(arcsenquei = asin(sqrt(propqueim)))
+anova2w<-aov(arcsenquei ~ parque+tipo+parque:tipo, parquint2)
+summary(anova2w)
+#efeito nao significativo entre parques, 6% signif efeito el nino
+#agora repetir a analise incluindo as areas externas
+parquenj2 <- parquenj %>% 
+  mutate(arcsenquei = asin(sqrt(propqueim)))
+anova2wtudo<-aov(arcsenquei ~ parque+tipo+parque:tipo, parquenj2)
+summary(anova2wtudo)
