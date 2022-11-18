@@ -10,3 +10,11 @@ anova_area_queimada_parque_enso <- read_excel("dados/anova-area-queimada-parque-
                                                             "text", "numeric", "numeric", "numeric"))
 View(anova_area_queimada_parque_enso)
 parquesqueimada<- anova_area_queimada_parque_enso
+
+library(readxl)
+no_missing_anova_area_queimada_parque_enso <- read_excel("dados/no-missing-anova-area-queimada-parque-enso.xlsx")
+View(no_missing_anova_area_queimada_parque_enso)
+parques_queima <- no_missing_anova_area_queimada_parque_enso
+boxplot(percentagem~parque, data=parques_queima)
+boxplot(percentagem~tipo, data=parques_queima)
+boxplot(percentagem~local, data=parques_queima)
