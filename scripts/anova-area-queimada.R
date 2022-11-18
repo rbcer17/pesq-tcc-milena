@@ -18,3 +18,7 @@ parques_queima <- no_missing_anova_area_queimada_parque_enso
 boxplot(percentagem~parque, data=parques_queima)
 boxplot(percentagem~tipo, data=parques_queima)
 boxplot(percentagem~local, data=parques_queima)
+# add arcsine transform  variable n quad queimado
+parqueim <- nome_int_no_missing_anova_area_queimada_parque_enso
+parqueim %>% 
+  mutate(arcsenquei = asin(sqrt(propqueim)))
