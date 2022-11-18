@@ -39,3 +39,8 @@ parquenj2 <- parquenj %>%
   mutate(arcsenquei = asin(sqrt(propqueim)))
 anova2wtudo<-aov(arcsenquei ~ parque+tipo+parque:tipo, parquenj2)
 summary(anova2wtudo)
+interaction.plot(parquenj2$parque, parquenj2$tipo, parquenj2$arcsenquei)
+#agora ver se ha efeito significativo dentro vs fora
+anova2wlocal<-aov(arcsenquei ~ parque+local+parque:local, parquenj2)
+summary(anova2wlocal)
+#nao ha diferencas significativas interno vs externo mas sim entre parques
