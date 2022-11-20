@@ -1,9 +1,9 @@
 ---
-title: "R Notebook"
+title: "Analise TCC Milena"
 output: html_notebook
 ---
 
-Carregar primeiro: tidyverse lawstat car readxl
+Carregar primeiro: tidyverse lawstat car readxl (linux package cmake)
 
 Fazendo um boxplot dos dados olhando parques, int vs ext, e el nino
 
