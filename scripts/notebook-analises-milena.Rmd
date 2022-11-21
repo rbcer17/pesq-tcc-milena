@@ -43,6 +43,13 @@ Removendo o parque do Jalapao da analise
 parquenj <- parqueim %>%  filter(parque!='jalapao')
 ```
 
+Repetindo o boxplot sem o jalapao:
+
+```{r}
+boxplot(percentqueim~parque, data=parquenj)
+boxplot(percentqueim~tipo, data=parquenj)
+boxplot(percentqueim~local, data=parquenj)
+```
 
 Fazendo transformacao logit da proporcao de area queimada cada parque cada ano e fazendo anova parque vs el nino com interacao e var dependente logit
 
