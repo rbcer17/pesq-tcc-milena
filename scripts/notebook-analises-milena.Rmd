@@ -1,9 +1,33 @@
 ---
 title: "Analise TCC Milena"
-output: html_notebook
+output:
+  html_notebook: default
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
 ---
 
 Carregar primeiro: tidyverse lawstat car readxl (linux package cmake)
+```{r}
+library(tidyverse)
+library(lawstat)
+library(car)
+```
+
+Importar a planilha de dados
+
+```{r}
+library(readxl)
+nome_int_no_missing_anova_area_queimada_parque_enso <- read_excel("/home/rbc2/Documents/pesq-tcc-milena/dados/nome-int-no-missing-anova-area-queimada-parque-enso.xlsx")
+```
+
+Copiar a planilha importada para o dataframe parqueim
+
+```{r}
+parqueim <- nome_int_no_missing_anova_area_queimada_parque_enso
+```
+
 
 Fazendo um boxplot dos dados olhando parques, int vs ext, e el nino
 
