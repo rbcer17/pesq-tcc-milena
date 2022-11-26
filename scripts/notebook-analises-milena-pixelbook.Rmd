@@ -101,11 +101,21 @@ summary(anova2wlocal)
 ```
 
 Testando premissas de normalidade shapiro e homogeneidade de variancia levene dos residuos da ANOVA parques vs local
+Os resultados sao nao significativos, portanto consistentes com a hipotese nula de que os dados nao diferem de de distribuicao normal e de distribuicoes com variancia homogenea
+
+
 
 ```{r}
 shapiro.test(resid(anova2wlocal))
 leveneTest(parquenj3$logitquei, parquenj3$local)
 ```
+
+CONCLUSAO GERAL
+
+Considerando a variavel dependente proporcao de area queimada nos parques e seu entorno em cada ano, concluimos que o unico efeito significativo e referente ao clima, ou seja ha uma proporcao de area queimada significativamente mais alta nos anos la nina.
+
+Ha algumas tendencias nao significativas em outras variaveis. As areas externas tem uma tendencia a queimar em maior proporcao e a variar mais entre anos do que as areas internas.  Ha uma tendencia do parque do Lajeado de queimar em maior proporcao e de de variar mais entre anos do que os parques de Brasilia e da Chapada dos Veadeiros
+
 
 When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
 
