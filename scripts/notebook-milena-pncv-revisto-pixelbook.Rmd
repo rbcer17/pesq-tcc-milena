@@ -19,13 +19,13 @@ Importar a planilha de dados
 
 ```{r}
 library(readxl)
-nome_int_no_missing_anova_area_queimada_parque_enso <- read_excel("/home/rbcer10/rstudio-projects/pesq-tcc-milena/dados/nome-int-no-missing-anova-area-queimada-parque-enso.xlsx")
+nome_int_no_missing_pncv_corrigido <- read_excel("/home/rbcer10/rstudio-projects/pesq-tcc-milena/dados/nome-int-no-missing-pncv-corrigido.xlsx")
 ```
 
 Copiar a planilha importada para o dataframe parqueim
 
 ```{r}
-parqueim <- nome_int_no_missing_anova_area_queimada_parque_enso
+parqueim <- nome_int_no_missing_pncv_corrigido
 ```
 
 
@@ -74,6 +74,7 @@ parquenj3 <- parquenj %>%
 anova3wtudo<-aov(logitquei ~ parque+tipo+parque:tipo, parquenj3)
 summary(anova3wtudo)
 interaction.plot(parquenj3$parque, parquenj3$tipo, parquenj3$percentqueim)
+interaction.plot(parquenj3$parque, parquenj3$local, parquenj3$percentqueim)
 ```
 
 Interpretacao dos resultados:
