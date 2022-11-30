@@ -1,10 +1,10 @@
 ---
 title: "Analise TCC Milena"
 output:
-  html_notebook: default
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
+  html_notebook: default
   word_document: default
 ---
 
