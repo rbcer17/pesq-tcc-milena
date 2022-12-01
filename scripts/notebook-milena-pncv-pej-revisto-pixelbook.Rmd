@@ -1,0 +1,123 @@
+---
+title: "Analise TCC Milena"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  html_notebook: default
+  word_document: default
+---
+
+Carregar primeiro: tidyverse lawstat car readxl (linux package cmake)
+```{r}
+library(tidyverse)
+library(lawstat)
+library(car)
+```
+
+Importar a planilha de dados
+
+```{r}
+library(readxl)
+nome_int_no_missing_pncv_corrigido <- read_excel("/home/rbcer10/rstudio-projects/pesq-tcc-milena/dados/nome-int-no-missing-pncv-corrigido.xlsx")
+```
+
+Copiar a planilha importada para o dataframe parqueim
+
+```{r}
+parqueim <- nome_int_no_missing_pncv_corrigido
+```
+
+
+Fazendo um boxplot dos dados olhando parques, int vs ext, e el nino
+
+```{r}
+boxplot(percentqueim~parque, data=parqueim)
+boxplot(percentqueim~tipo, data=parqueim)
+boxplot(percentqueim~local, data=parqueim)
+```
+
+Interpretacao dos boxplots:
+
+Percentagem queimada vs parques. O parque do jalapao queimou muito pouco e deve ser excluido da analise pois contribui pouco para a mesma. Os parques de Brasilia e Veadeiros tiveram padrao bem semelhante. O parque do Lajeado apresentou mediana mais alta e muita variancia, o que deve ter levado ao fato da anova a seguir ser quase significativa na variavel independente parques
+
+Percentagem queimada vs clima. Os anos el nino e neutros tiveram medianas e variancias proximas entre si. Os anos la nina tiveram mediana e variancia bem mais alta, justificando o efeito significativo da variavel independente tipo na anova a seguir.
+
+Percentagem queimada vs interno e externo. As areas externas tiveram mediana proxima das areas internas, mas as areas externas tiveram variancia muito maior, abrangendo toda a faixa de variacao das areas internas. A anova parques e local apresentou resultados nao significativos, e isto justificou a combinacao das areas externas e internas na analise global dos efeitos el nino e la nina
+
+
+
+
+
+
+Removendo o parque do Jalapao da analise
+
+```{r}
+parquenj <- parqueim %>%  filter(parque!='jalapao')
+```
+
+Repetindo o boxplot sem o jalapao:
+
+```{r}
+boxplot(percentqueim~parque, data=parquenj)
+boxplot(percentqueim~tipo, data=parquenj)
+boxplot(percentqueim~local, data=parquenj)
+```
+
+Fazendo transformacao logit da proporcao de area queimada cada parque cada ano e fazendo anova parque vs el nino com interacao e var dependente logit
+
+O objetivo da transformacao logit e de normalizar os dados de proporcao para permitir o uso desta variavel em anova.
+
+```{r}
+parquenj3 <- parquenj %>% 
+  mutate(logitquei = logit(propqueim))
+anova3wtudo<-aov(logitquei ~ parque+tipo+parque:tipo, parquenj3)
+summary(anova3wtudo)
+interaction.plot(parquenj3$parque, parquenj3$tipo, parquenj3$percentqueim)
+interaction.plot(parquenj3$parque, parquenj3$local, parquenj3$percentqueim)
+```
+
+Interpretacao dos resultados:
+
+ANOVA parque vs tipo
+
+Media entre 3 parques na proporcao de area queimada tem diferenca nao significativa (p<0,09, embora o efeito seja proximo de significativo. Media na proporcao de area queimada entre anos el nino, la nina, e neutro tem diferenca altamente significativa (p<0,007). Conclusao: variancia entre parques nao significativa, variancia entre anos altamente significativa
+
+
+Testando e confirmando a premissa de normalidade (shapiro) e homoscedascidade (levene) dos residuos. Os resultados sao nao significativos, portanto consistentes com a hipotese nula de que os dados nao diferem de de distribuicao normal e de distribuicoes com variancia homogenea
+
+Grafico confirma este padrao mostrando que os anos la nina tem proporcao de area queimada muito mais alta que os anos el nino ou neutro
+
+```{r}
+shapiro.test(resid(anova3wtudo))
+leveneTest(parquenj3$logitquei, parquenj3$parque)
+leveneTest(parquenj3$logitquei, parquenj3$tipo)
+```
+
+Verificar se ha efeitos significativos interno vs externo
+
+```{r}
+anova2wlocal<-aov(logitquei ~ parque+local+parque:local, parquenj3)
+summary(anova2wlocal)
+```
+
+Testando premissas de normalidade shapiro e homogeneidade de variancia levene dos residuos da ANOVA parques vs local
+Os resultados sao nao significativos, portanto consistentes com a hipotese nula de que os dados nao diferem de de distribuicao normal e de distribuicoes com variancia homogenea
+
+
+
+```{r}
+shapiro.test(resid(anova2wlocal))
+leveneTest(parquenj3$logitquei, parquenj3$local)
+```
+
+CONCLUSAO GERAL
+
+Considerando a variavel dependente proporcao de area queimada nos parques e seu entorno em cada ano, concluimos que o unico efeito significativo e referente ao clima, ou seja ha uma proporcao de area queimada significativamente mais alta nos anos la nina.
+
+Ha algumas tendencias nao significativas em outras variaveis. As areas externas tem uma tendencia a queimar em maior proporcao e a variar mais entre anos do que as areas internas.  Ha uma tendencia do parque do Lajeado de queimar em maior proporcao e de de variar mais entre anos do que os parques de Brasilia e da Chapada dos Veadeiros
+
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
