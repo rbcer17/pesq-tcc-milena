@@ -1,10 +1,11 @@
 ---
 title: "Analise TCC Milena PNCV PEJ revistos"
 output:
+  
+  html_notebook: default
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
-  html_notebook: default
   word_document: default
 ---
 
@@ -19,7 +20,7 @@ Importar a planilha de dados
 
 ```{r}
 library(readxl)
-nome_int_no_missing_pncv_corrigido <- read_excel("/home/rbcer10/rstudio-projects/pesq-tcc-milena/dados/nome-int-no-missing-pncv-pej-corrigido.xlsx")
+nome_int_no_missing_pncv_pej_corrigido <- read_excel("/home/rbcer10/rstudio-projects/pesq-tcc-milena/dados/nome-int-no-missing-pncv-pej-corrigido.xlsx")
 ```
 
 Copiar a planilha importada para o dataframe parqueim
