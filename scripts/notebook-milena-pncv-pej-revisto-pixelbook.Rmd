@@ -1,5 +1,5 @@
 ---
-title: "Analise TCC Milena"
+title: "Analise TCC Milena PNCV PEJ revistos"
 output:
   html_document:
     df_print: paged
@@ -19,13 +19,13 @@ Importar a planilha de dados
 
 ```{r}
 library(readxl)
-nome_int_no_missing_pncv_corrigido <- read_excel("/home/rbcer10/rstudio-projects/pesq-tcc-milena/dados/nome-int-no-missing-pncv-corrigido.xlsx")
+nome_int_no_missing_pncv_corrigido <- read_excel("/home/rbcer10/rstudio-projects/pesq-tcc-milena/dados/nome-int-no-missing-pncv-pej-corrigido.xlsx")
 ```
 
 Copiar a planilha importada para o dataframe parqueim
 
 ```{r}
-parqueim <- nome_int_no_missing_pncv_corrigido
+parqueim <- nome_int_no_missing_pncv_pej_corrigido
 ```
 
 
@@ -39,7 +39,7 @@ boxplot(percentqueim~local, data=parqueim)
 
 Interpretacao dos boxplots:
 
-Percentagem queimada vs parques. O parque do jalapao queimou muito pouco e deve ser excluido da analise pois contribui pouco para a mesma. Os parques de Brasilia e Veadeiros tiveram padrao bem semelhante. O parque do Lajeado apresentou mediana mais alta e muita variancia, o que deve ter levado ao fato da anova a seguir ser quase significativa na variavel independente parques
+Percentagem queimada vs parques. Os parques de Brasilia e Veadeiros tiveram padrao bem semelhante. O parque do Lajeado apresentou mediana mais alta e muita variancia, o que deve ter levado ao fato da anova a seguir ser quase significativa na variavel independente parques
 
 Percentagem queimada vs clima. Os anos el nino e neutros tiveram medianas e variancias proximas entre si. Os anos la nina tiveram mediana e variancia bem mais alta, justificando o efeito significativo da variavel independente tipo na anova a seguir.
 
@@ -50,13 +50,13 @@ Percentagem queimada vs interno e externo. As areas externas tiveram mediana pro
 
 
 
-Removendo o parque do Jalapao da analise
+Mantendo o parque do Jalapao na analise
 
 ```{r}
-parquenj <- parqueim %>%  filter(parque!='jalapao')
+parquenj <- parqueim
 ```
 
-Repetindo o boxplot sem o jalapao:
+Repetindo o boxplot com o jalapao:
 
 ```{r}
 boxplot(percentqueim~parque, data=parquenj)
